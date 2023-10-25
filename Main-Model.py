@@ -213,7 +213,7 @@ s_13 =  (-1 * C_bac + C_xc)
 
 #####################################################################################################
 ##----- SECTION THREE -----##
-## Constants for Heat balance
+## Heat network paramaeters
 
 T_soil_sub  = 283.15 #[K]     # Soil temperature at the bottom of the digester
 
