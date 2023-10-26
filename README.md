@@ -23,10 +23,13 @@ How to use
 To begin a simulation, firstly a few steps should be taken beforhands. In the following, you can find everywhere within the main-model.py that should be filled out/changed by the user.
 Every section is divided by "######". However, other parts may be changed by user as wishes, but primarily, there is no need to take any action beforehand.
 
-############################################################################################################################################################
+###############################################################################################
 - Section one: Determine model specification:
+  
    --> Line#44: asnwer = 'ODE' or 'DAE' or 'pure-ODE' --> that determines the equation framework of the model.
+  
    --> Line#47: solvermethod = 'Radau' --> can be changed if the user wishes trying different solver
+  
    --> Line#48: tempmodel = 'Cardinal' or 'Arrhenius' --> that determines type of tempereture inhibition functions
 
 ############################################################################################################################################################
