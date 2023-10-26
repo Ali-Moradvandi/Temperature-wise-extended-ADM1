@@ -33,7 +33,6 @@ start_time = time.time()
 
 ## ADMn1 Version: 
 # 0 = original ADM1
-# 1 = R1, 2 = R2, and 3 = R3
 
 ## gascontrol: gas control can be "steady" or "variable" strategy.
 
@@ -311,9 +310,9 @@ T_air = np.delete(airdata1[:,11], slice(0,43830))/10  + 273.15                  
 
 
 "Influent and initial concentrations calculated from labwork"
-influent_state = pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####\initials_influents_and_weatherdata\continuousW+S.csv', sep=';')
+influent_state = pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####\influent.csv', sep=';')
 influent_state = influent_state.to_dict()
-initial_state = pd.read_csv(r"C:#####SHOULD BE FILLED OUT BY THE USER#####\initials_influents_and_weatherdata\batchinitial.csv")
+initial_state = pd.read_csv(r"C:#####SHOULD BE FILLED OUT BY THE USER#####\batchinitial.csv")
 initial_state = initial_state.to_dict()
 
 #####################################################################################################
