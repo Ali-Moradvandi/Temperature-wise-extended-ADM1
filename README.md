@@ -47,15 +47,15 @@ Every section is divided by "######". However, other parts may be changed by use
   
   --> Line#232: labda_digester_wet_walls = 1.2*86400 # [W*m^-1*K^-1] --> Thermal conductivity of plain concrete floor surrounded by moist earth
 
-  --> Line#217: h_cov_gas   = 2.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between cover and biogas
+  --> Line#250: h_cov_gas   = 2.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between cover and biogas
   
-  --> Line#217: h_gas_wall  = 2.70*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and wall
+  --> Line#251: h_gas_wall  = 2.70*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and wall
    
-  --> Line#217: h_gas_sub   = 2.20*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and substrate
+  --> Line#252: h_gas_sub   = 2.20*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and substrate
    
-  --> Line#217: h_sub_wall  = 177.25*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and wall
+  --> Line#253: h_sub_wall  = 177.25*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and wall
    
-  --> Line#217: h_sub_floor = 244.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and floor
+  --> Line#254: h_sub_floor = 244.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and floor
 
 ###############################################################################################
 - Section four: Operational parameters
