@@ -23,7 +23,7 @@ How to use
 To begin a simulation, firstly a few steps should be taken beforhands. In the following, you can find everywhere within the main-model.py that should be filled out/changed by the user.
 Every section is divided by "######". However, other parts may be changed by user as wishes, but primarily, there is no need to take any action beforehand.
 
-###############################################################################################
+########################################################################
 - Section one: Determine model specification:
   
    --> Line#44: asnwer = 'ODE' or 'DAE' or 'pure-ODE' --> that determines the equation framework of the model.
@@ -32,7 +32,7 @@ Every section is divided by "######". However, other parts may be changed by use
   
    --> Line#48: tempmodel = 'Cardinal' or 'Arrhenius' --> that determines type of tempereture inhibition functions
 
-###############################################################################################
+########################################################################
 - Section three: Heat network paramaeters:
   
    This section and the parameters and values within it, should be adjusted according to the digester heat network under consideration.
@@ -57,7 +57,7 @@ Every section is divided by "######". However, other parts may be changed by use
    
   --> Line#254: h_sub_floor = 244.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and floor
 
-###############################################################################################
+########################################################################
 - Section four: Operational parameters
    All defined parameters in this section may/should be adjusted by user.
 
@@ -79,7 +79,7 @@ Every section is divided by "######". However, other parts may be changed by use
    
    --> Line#273: T_feed = 308.15 #[K] --> Temperature of influent
 
-###############################################################################################
+########################################################################
 - Section five: Importing weather condition data from csv files
   
    This section can be adjusted based on type of meteorological dataset to prepare them to feed to the simulation.
@@ -89,7 +89,7 @@ Every section is divided by "######". However, other parts may be changed by use
   --> Line#283: airdata1 = (pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####.csv', sep=';', skiprows =52)).to_numpy()
 
 
-###############################################################################################
+########################################################################
 - Section six: Influent and initial parameters from csv files
   
   Firstly, the excel files of influent and initial should be updated based on BMP test and substrate characterization.
@@ -100,7 +100,7 @@ Every section is divided by "######". However, other parts may be changed by use
   
   --> Line#315: initial_state = pd.read_csv(r"C:#####SHOULD BE FILLED OUT BY THE USER#####\batchinitial.csv")
 
-###############################################################################################
+########################################################################
 - Section seven: Heat transfer model
   
   Resistances may/should be updated according to the heat transfer network by user.
@@ -123,7 +123,7 @@ Every section is divided by "######". However, other parts may be changed by use
   
   --> Line#365:  R_CND_floor        = Delta_X / labda_digester_wet_walls --> conductive resistance of floor
 
-###############################################################################################
+########################################################################
 - Section eight: Calculate temperature dependents
   
   Data parameters of Cardinal and Arrhenius (Line#414-434) can be updated based on the results of nonlinear LS identification. 
