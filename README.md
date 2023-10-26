@@ -17,98 +17,82 @@ Thermal-Integrated Anaerobic Digestion Model encompasses two integral models, i.
   * Section Eleven: Simulation of the model;
 
 
-# Use of program
+# Use of the model
 How to use
 
-To begin a simulation, the GUI App needs to be started either by:
-Executing the installed PROVER-M application.
-Opening the scr-directory and double-clicking on the file PROVER_M.mlapp (requires MATLAB).
-Opening the PROVER_M.mlapp in MATLAB (requires MATLAB).
-The model input can be set by changing individual parameters or by selecting an existing input text file via the "Input case" dropdown menu or the "Load.."-button.
-After setting the desired input parameters, the configuration can be saved as a text file by clicking the "Save as.."-button.
-The input can be reset to the last saved version of the selected input case in two ways. While "Reset sediment data" resets the sediment characteristics, "Reset input" resets the entire input configuration.
-By clicking the "START"-button, the simulation is initiated.
-In the right half of the GUI, a live feed of the cloud propagation through the water column and main parameters is presented.
-Input
-(including suggested order of magnitude)
+To begin a simulation, firstly a few steps should be taken beforhands. In the following, you can find everywhere within the main-model.py that should be filled out/changed by the user.
+Every section is divided by "######". However, other parts may be changed by user as wishes, but primarily, there is no need to take any action beforehand.
 
-Ambient parameters (incl. suggested order of magnitude)
+############################################################################################################################################################
+- Section one: Determine model specification:
+   --> Line#44: asnwer = 'ODE' or 'DAE' or 'pure-ODE' --> that determines the equation framework of the model.
+   --> Line#47: solvermethod = 'Radau' --> can be changed if the user wishes trying different solver
+   --> Line#48: tempmodel = 'Cardinal' or 'Arrhenius' --> that determines type of tempereture inhibition functions
 
-Water depth                       (101 to 102)
-Ambient velocities             (-100 to 100)
-Ambient densities              (103)
-Hopper settings
+############################################################################################################################################################
+- Section three: Heat network paramaeters:
+   This section and the parameters and values within it, should be adjusted according to the digester heat network under consideration.
+   The presented heat network was designed based on the heat network of a buried dome digester with insulation.
+  
+  --> Line#217: T_soil_sub = 283.15 #[K] --> Soil temperature at the bottom of the digester
+  --> Line#228: labda_digester_cover = 5*86400 # [W*m^-1*K^-1] --> Thermal conductivity of plain concrete walls 300 mm thick with air space plus brick facing 
+  --> Line#230: labda_digester_dry_walls = 0.6*86400 # [W*m^-1*K^-1] --> Thermal conductivity of plain concrete walls surrounded by moist earth
+  --> Line#232: labda_digester_wet_walls = 1.2*86400 # [W*m^-1*K^-1] --> Thermal conductivity of plain concrete floor surrounded by moist earth
 
-Disposal volume                (102 to 104)
-Hopper draft                      (100 to 101)
-Dumping instances            (divides a disposal into n-equal intervals that are disposed consecutively)
-Settling
+  --> Line#217: h_cov_gas   = 2.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between cover and biogas 
+  --> Line#217: h_gas_wall  = 2.70*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and wall  
+  --> Line#217: h_gas_sub   = 2.20*86400 # [W*m^-2*K^-1] --> Convective heat transfer between biogas and substrate   
+  --> Line#217: h_sub_wall  = 177.25*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and wall   
+  --> Line#217: h_sub_floor = 244.15*86400 # [W*m^-2*K^-1] --> Convective heat transfer between substrate and floor
 
--1 to 1 (For positive values [0-1], the reduction factor determines the fraction of the sediment to be settled. For a reduction factor of -1, the settling is only based on the critical shear stress.)
-Coefficients (All coefficients should be selected carefully and within the limits of the given order of magnitude)
+############################################################################################################################################################
+- Section four: Operational parameters
+   All defined parameters in this section may/should be adjusted by user.
 
-Entrainment phase 1          (10-1)
-Entrainment phase 2          (10-1)
-Mass                                   (100)
-Drag phase 1                      (100)
-Drag phase 2                      (10-2 to 10-1)
-Friction                               (10-2)
-Stripping                            (10-3)
-Sediment characteristics
+   --> Line#265: V_liq = 4300/100 #[m^3] --> Volume for liquid fraction of the reactor
+   --> Line#266: V_gas = 300/100 #[m^3] --> Reactor volume for gas
+   --> Line#267: V_ad = V_liq + V_gas #[m^3] --> Reactor volume
+   --> Line#268: r_out = (3 * V_ad / (4 * math.pi))**(1/3) #[m] --> Reactor outside radius (This is only applicable for dome digester)
+   --> Line#269: A = math.pi * (r_out ** 2) #[m^2] --> Reacor surface (can be a value for any other type of digesters)
+   --> Line#270: Delta_X = 3 #[m] --> Digester wall thickness
+   --> Line#271: r_in = r_out - Delta_X #[m] --> Reactor inside radius (This is only applicable for dome digesters)
+   --> Line#272: q_ad = 200/100 #[m^3*d^-1] --> Influent flow rate 
+   --> Line#273: T_feed = 308.15 #[K] --> Temperature of influent
 
-Type
-Density
-Volumetric fraction
-Fall velocity
-Void ratio
-Critical shear stress
-Cohesiveness
-Allowing the material to be stripped (applies to fine sediments, including fine sand)
-Output
-Output settings
+############################################################################################################################################################
+- Section five: Importing weather condition data from csv files
+   This section can be adjusted based on type of meteorological dataset to prepare them to feed to the simulation.
 
-Output time step interval (sets the interval for the output variables for stripped and settled sediments)
-Time step for plotting
-'Yes': Uses the output time step interval for updating the live feed of the cloud propagation through the water column within the GUI.
-'No': Updates the live feed of the cloud propagation through the water column within the GUI using a preset interval of 25 time steps.
-GUI live feed
+  --> Line#281: grounddata1 = (pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####.csv', sep=';', skiprows =16)).to_numpy()
+  --> Line#283: airdata1 = (pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####.csv', sep=';', skiprows =52)).to_numpy()
 
-Time
-Cloud radius
-Stripping volume
-Cloud width
-Cloud height
-Settling volume
-Output file
+############################################################################################################################################################
+- Section six: Influent and initial parameters from csv files
+  Firstly, the excel files of influent and initial should be updated based on BMP test and substrate characterization.
+  Then, reference addresses should also be added accordingly.
 
-Cloud parameters as textfile
-Stripped and settled sediments as textfile
-Cloud and sediment variables as MAT-files
-Output files are stored in a directory "output". If the PROVER-M stand alone .exe has been used, the data will be stored under C:\Users\username\AppData\Local\Temp\username\mcrCache9.12\PROVER0\PROVER_M\output. The accessability will be changed with the next update.
+  --> Line#313: influent_state = pd.read_csv(r'C:#####SHOULD BE FILLED OUT BY THE USER#####\influent.csv', sep=';')
+  --> Line#315: initial_state = pd.read_csv(r"C:#####SHOULD BE FILLED OUT BY THE USER#####\batchinitial.csv")
 
-Functionality (Flow chart)
-An overview of the functionality of the program code in the form of a flow chart can be found [here](link to paper).
-Prerequisites
-For executing the PROVER.exe on a Windows system, no necessary packages or programs are needed.
+############################################################################################################################################################
+- Section seven: Heat transfer model
+  Resistances may/should be updated according to the heat transfer network by user.
 
-Source Code
-If a user wants to adapt or change the source code, the scr-directory includes the following files:
+  --> Line#356:  R_CNV_air_cover    = 1 / h_cnv_air_cover  --> convective resistance between air and cover  
+  --> Line#357:  R_CND_cover        = Delta_X / labda_digester_cover --> conductive resistance of cover  
+  --> Line#358:  R_CNV_biogas_cover = 1 / h_cov_gas --> convective resistance between biogas and cover  
+  --> Line#359:  R_CNV_biogas_wall  = 1 / h_gas_wall --> convective resistance between biogas and wall  
+  --> Line#360:  R_CND_wall         = Delta_X / labda_digester_wet_walls --> conductive resistance of wall    
+  --> Line#361:  R_CNV_sub_biogas   = 1 / h_gas_sub --> convective resistance between biogas and substrate
+  --> Line#362:  R_CNV_sub_wall     = 1 / h_sub_wall --> convective resistance between substrate and wall
+  --> Line#364:  R_CNV_floor_sub    = 1 / h_sub_floor --> convective resistance between floor and substrate
+  --> Line#365:  R_CND_floor        = Delta_X / labda_digester_wet_walls --> conductive resistance of floor
 
-PROVER_M.mlapp
-A MATLAB App that starts the GUI, which may be used for selecting input parameters, starting simulations and accessing the live feed.
-prover_m_main.m
-Main program code, where the bookkeeping of the cloud and ambient parameters occurs.
-prover_m_rk4.m
-This numerical solver function utilizes the Runge-Kutta 4th order method to approximate parameter gradients
-prover_m_phase1.m
-In this function, the addressed variables in the phase of convective descent are calculated using the conservation equations.
-prover_m_phase2.m
-In this function, the addressed variables in the phase of dynamic collapse are calculated using the energy concept equations.
-For running the source code files, an installed and licened version of MATLAB by Mathworks is needed.
-
-License
-GNU GPL License
-PROVER-M has been developed in MATLAB and is provided via the Application Compiler provided by MATLAB®. © 1984 - 2022a The MathWorks, Inc.
+############################################################################################################################################################
+- Section eight: Calculate temperature dependents
+  Data parameters of Cardinal and Arrhenius (Line#414-434) can be updated based on the results of nonlinear LS identification. 
+    
+  --
 
 More information
 A full account of software functionalities and implemented methods can be found [here](link to paper).
